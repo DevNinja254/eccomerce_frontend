@@ -1,8 +1,9 @@
 import React, {useState, useEffect} from 'react'
-import axios from 'axios'
+import api from '../../js/api'
 const FormDetail = ({editing, updated}) => {
   const [id, setId] = useState("")
   const [updating, setUpdating] = useState(false)
+  const [update, setUpdate] = useState(true)
     const [personalDetails, setPersonalDetails] = useState({
       username: "",
       email: ""
@@ -24,7 +25,7 @@ const FormDetail = ({editing, updated}) => {
     setUpdating(true)
     e.preventDefault();
     try {
-      const res = await axios.put(`http://localhost:8000/api/v1/profile/${formData.id}/`, {...formData, full_name: "not added"})
+      const res = await api.put(`/profile/${formData.id}/`, {...formData, full_name: "not added"})
       editing(false)
       updated(true)
       setUpdating(false)
@@ -34,8 +35,6 @@ const FormDetail = ({editing, updated}) => {
     }
   }
   useEffect(() => {
-    document.title="Account"
-    window.scrollTo({top:0, left:0, behavior:"smooth"})
     const informa = async () => {
         const token = localStorage.getItem("access_token")
         if (token) {
@@ -46,13 +45,13 @@ const FormDetail = ({editing, updated}) => {
             }
             try {
                 
-                const res1 = await axios.get('http://localhost:8000/api/v1/info/', config)
+                const res1 = await api.get('/info/', config)
                 const userInfo = res1.data
                 setPersonalDetails(userInfo)
                if (userInfo) {
-                const res2 = await axios.get(`http://localhost:8000/api/v1/profile/${userInfo.id}/`, config)
+                const res2 = await api.get(`/profile/${userInfo.id}/`, config)
                 const prof = res2.data
-                console.log(prof)
+                // console.log(prof)
                 setId(prof.id)
                 setFormData({
                   id: prof.id,
@@ -76,6 +75,11 @@ const FormDetail = ({editing, updated}) => {
     }
     informa()
 }, [])
+const cancelSubmit = (e) => {
+  e.preventDefault()
+  editing(false)
+  // setExist
+}
   return (
     <form>
                 <div className=' grid grid-cols-6 borderGrayB'>
@@ -103,7 +107,12 @@ const FormDetail = ({editing, updated}) => {
                     <label htmlFor='town' className='col-span-2 block capitalize borderGrayR p-3 font-bold text-gray-600'>city</label>
                     <input type='text' name='city' id="city" className='p-3 capitalize block text-gray-900 outline-none text-sm col-span-4 ' value={formData.city} onChange={handleChange}/>
                 </div>
-                <button className={`bgBlue m-3 inline-block text-white font-bold text-sm p-2 rounded-sm capitalize hover:opacity-90 ${updating ? "opacity-60" : "opacity-100"}`} disabled={updating} onClick={handleSubmit}>{updating ? "Updating..." : "Update"}</button>
+                <div className=''>
+                  <button className={`bgBlue m-3 inline-block text-white font-bold text-sm p-2 rounded-sm capitalize hover:opacity-90 ${updating ? "opacity-60" : "opacity-100"}`} disabled={updating} onClick={handleSubmit}>{updating ? "Updating..." : "Update"}</button>
+                 {
+                  update ?  <button className={`bgRed m-3 inline-block text-white font-bold text-sm p-2 rounded-sm capitalize hover:opacity-90 ${updating ? "opacity-60" : "opacity-100"}`} disabled={updating} onClick={cancelSubmit}>Cancel</button> : null
+                 }
+                </div>
             </form>
   )
 }

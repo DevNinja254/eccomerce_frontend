@@ -1,15 +1,39 @@
-import React from "react"
+import React, { useState, useEffect } from "react"
 import { IoCallOutline as Call } from "react-icons/io5"
 import { PiFacebookLogo as Facebook } from "react-icons/pi"
 import { PiTwitterLogoFill as Twitter } from "react-icons/pi"
 import { PiInstagramLogo as Instagram } from "react-icons/pi"
 import { NavLink } from "react-router-dom"
+import Boilerplate from "../../boilerplate/Boilerplate"
 export const Apk = () => {
+    const [loading, setLoading] = useState(false)
+    // useEffect(() => {
+    //     setTimeout(() => {
+    //         setLoading(false)
+    //     }, 1000);
+    //   }, [])
     return (
         <div className=" py-5 my-3">
-           <div className="px-3 md:flex items-center justify-around">
+          {
+            loading ? <div>
+                <Boilerplate h="h-10" display={"grid"} display2={"grid"} display1={"none"}/>
+                <Boilerplate h="h-10" display={"grid"}/>
+                <div className="flex justify-start">
+                    <Boilerplate display={"hidden"} display1={"hidden"} display2={"w-10 rounded-full"} h="h-10"/>
+                    <Boilerplate display={"hidden"} display1={"hidden"} display2={"w-10 rounded-full"} h="h-10"/>
+                    <Boilerplate display={"hidden"} display1={"hidden"} display2={"w-10 rounded-full"} h="h-10"/>
+                </div>
+                <Boilerplate h="h-10" display={"grid"} display2={"grid"} display1={"none"}/>
+                <div className="flex justify-start">
+                    <Boilerplate display={"hidden"} display1={"block"} display2={"w-1/3"}/>
+                    <Boilerplate display={"hidden"} display1={"block"} display2={"w-1/3"}/>
+                    <Boilerplate display={"hidden"} display1={"block"} display2={"w-1/3"}/> 
+                </div>
+            </div> : 
+            <>
+                 <div className="px-3 md:flex items-center justify-around ">
             <div className="flex items-center justify-start gap-3">
-                <div className="borderGray p-2 rounded-full text-gray-600 my-2">
+                <div className="borderGray p-2 rounded-full text-gray-600 my-2  ">
                     <Call size={20}/> 
                 </div>
                 <div>
@@ -47,6 +71,8 @@ export const Apk = () => {
                 <NavLink className="whitespace-nowrap inline-block" to="#">Cookie</NavLink>
             </div>
            </div>
+            </>
+          }
         </div>
     )
 }

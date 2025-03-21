@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react'
-import axios from 'axios'
+import api from '../../js/api'
 const DefaultDetails = ({editing}) => {
   const [personalDetails, setPersonalDetails] = useState({
     username: "",
@@ -9,8 +9,6 @@ const DefaultDetails = ({editing}) => {
     phone_number: "",
   })
   useEffect(() => {
-    document.title="Account"
-    window.scrollTo({top:0, left:0, behavior:"smooth"})
     const informa = async () => {
         const token = localStorage.getItem("access_token")
         if (token) {
@@ -21,11 +19,11 @@ const DefaultDetails = ({editing}) => {
             }
             try {
                 
-                const res1 = await axios.get('http://localhost:8000/api/v1/info/', config)
+                const res1 = await api.get('/info/', config)
                 const userInfo = res1.data
                 setPersonalDetails(userInfo)
                if (userInfo) {
-                const res2 = await axios.get(`http://localhost:8000/api/v1/profile/${userInfo.id}/`, config)
+                const res2 = await api.get(`/profile/${userInfo.id}/`, config)
                 const prof = res2.data
                 setMoreInfo(prof)
     

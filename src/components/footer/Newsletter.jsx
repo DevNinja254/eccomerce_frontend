@@ -1,9 +1,18 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { MdMarkEmailRead as Email } from 'react-icons/md'
+import Boilerplate from '../../boilerplate/Boilerplate'
 
 const Newsletter = () => {
+  const [isLoading, setIsLoading] = useState(false)
+  // useEffect(() => {
+  //   setTimeout(() => {
+  //     setIsLoading(false)
+  //   }, 10);
+  // }, [])
   return (
-    <div className='bgBlue'>
+  <>
+    {
+      isLoading ? <Boilerplate h="h-48" display={"hidden"} display1={"hidden"}/> :     <div className='bgBlue'>
       <div className=' lg:w-4/5 lg:m-auto mt-4 p-3 pb-0 sm:text-lg md:grid md:grid-cols-3 md:gap-3'>
         <div>
           <p className='text-gray-100  py-2'><span className='border-b-gray-200 border-b-2 '>$20 discount</span> for your first order</p>
@@ -22,6 +31,8 @@ const Newsletter = () => {
         </figure>
       </div>
     </div>
+    }
+  </>
   )
 }
 

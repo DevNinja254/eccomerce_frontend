@@ -5,10 +5,11 @@ import { BiMenu as Menu } from 'react-icons/bi'
 import Order from '../components/account/Order'
 import Details from '../components/account/Details'
 import Deposit from '../components/account/Deposit'
-import axios from 'axios'
+import api from '../js/api'
 import { useNavigate } from 'react-router-dom'
 
 const Account = ({info, profile, autheticate}) => {
+      const [authenticated,setAutheticated] = useState(false)
     const [deposit, setDeposit] = useState(false)
     const [bg, setBg] = useState("")
     const [show, setShow] = useState("hidden")
@@ -18,18 +19,40 @@ const Account = ({info, profile, autheticate}) => {
         
     }
     const navigate = useNavigate()
+    const token = localStorage.getItem('access_token')
     useEffect(() => {
-        document.title="Account"
-        window.scrollTo({top:0, left:0, behavior:"smooth"})
-        console.log(autheticate)
-        if (autheticate) {
-            console.log(info, profile)
-        } else {
-            navigate("/account/")
+        window.scrollTo({top:0})
+    if (token) {
+      const config = {
+        headers: {
+          'Authorization': `Bearer ${token}`
         }
+      }
+      try {
+        api.get('/info/', config)
+        .then(res => {
+          setAutheticated(true)
+        })
+      } catch (error) {
+        navigate('/account')
+      }
+    } else {
+      navigate('/account')
+    }
+
     }, [])
-    
-    
+  const logout =  () => {
+    if(authenticated) {
+      setBg("logout")
+      setAccountDetail("")
+      localStorage.removeItem('access_token')
+      localStorage.removeItem('refresh_token')
+      localStorage.removeItem("username")
+      navigate('/account')
+    } else {
+      navigate('/account')
+    }
+  }
   return (
     <MainLayout>
         <Deposit showDeposit={deposit} settingDeposit={settingDeposit} />
@@ -61,10 +84,7 @@ const Account = ({info, profile, autheticate}) => {
                     }}>
                         <p>view details</p>
                     </div>
-                    <div className={`font-bold text-gray-800 uppercase text-sm tracking-normal p-3 ${bg == "logout" ? "bgBlue text-white": ""} hover:opacity-90 hover:cursor-pointer transition-all duration-150 ease-linear`} onClick={() => {
-                        setBg("logout")
-                        setAccountDetail("")
-                    }}>
+                    <div className={`font-bold text-gray-800 uppercase text-sm tracking-normal p-3 ${bg == "logout" ? "bgBlue text-white": ""} hover:opacity-90 hover:cursor-pointer transition-all duration-150 ease-linear`} onClick={logout}>
                         <p>log out</p>
                     </div>
                 </div>

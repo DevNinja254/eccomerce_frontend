@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import FormDetail from './FormDetail'
 import DefaultDetails from './DefaultDetails'
-import axios from 'axios'
 const Details = ({info, profile}) => {
   const [edit, setEdit] = useState(false)
   const [update, setupdate] = useState(false)

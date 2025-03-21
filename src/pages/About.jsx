@@ -1,9 +1,14 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import MainLayout from '../layout/MainLayout'
+import EaseNav from '../components/ui/EaseNav'
 
 const About = () => {
+  useEffect(() => {
+    window.scrollTo({top: 0})
+  })
   return (
     <MainLayout>
+      <EaseNav/>
         <div>
           <div className='relative'>
             <figure>

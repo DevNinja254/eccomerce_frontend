@@ -1,4 +1,4 @@
-import axios from 'axios';
+import api from '../js/api'
 import React, {useState} from 'react'
 
 const Register = ({settingAutheticated, isLoading, settingLoading}) => {
@@ -16,7 +16,7 @@ const Register = ({settingAutheticated, isLoading, settingLoading}) => {
         e.preventDefault();
         window.scrollTo({top:0, left:0, behavior:"smooth"})
         try{
-            const response =await  axios.post("http://localhost:8000/api/v1/register/", formData)
+            const response =await  api.post("/register/", formData)
             const data = await response.data
             if (data.email) {
                 settingAutheticated(true)

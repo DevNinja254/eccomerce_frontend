@@ -23,9 +23,8 @@ const Authetication = () => {
         setLogin(true)
     }
     useEffect(()=> {
-        document.title = "Account"
         window.scrollTo({top:0, left:0, behavior:"instant"})
-    })
+    }, [])
   return (
     <MainLayout>
         <EaseNav/>

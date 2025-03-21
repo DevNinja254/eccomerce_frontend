@@ -1,7 +1,7 @@
 import React, {useState} from 'react'
 import {useNavigate} from 'react-router-dom'
 
-import axios from 'axios'
+import api from '../js/api'
 const Login = ({isLoading, settingLoading}) => {
     const [errors, setError] = useState("")
     const navigate = useNavigate()
@@ -14,7 +14,7 @@ const Login = ({isLoading, settingLoading}) => {
         window.scrollTo({top:0, left:0, behavior:"smooth"})
         e.preventDefault();
         try{
-            const response = await axios.post("http://localhost:8000/api/v1/login/", formData,)
+            const response = await api.post("/login/", formData,)
             const data = await response.data
             settingLoading(false)
             localStorage.setItem("access_token", data.tokens.access)

@@ -2,19 +2,17 @@ import React, { useState, useEffect, useRef } from 'react'
 import { BiMenu as Menu } from 'react-icons/bi'
 import { MdKeyboardArrowDown as ArrowD} from "react-icons/md";
 import { NavLink } from 'react-router-dom';
+import api from '../../js/api'
 const MoreLinks = () => {
     const [list, setList] = useState(false)
-    const cart = [1,1,1,1,1,1,1,1,1,1]
+    const [cart, setCart] = useState([])
     let menuRef = useRef()
-    // useEffect(()=>{
-    //     const handler = (e) => {
-    //         // if(menuRef.current.contains(e.target)) {
-    //             setList(false)
-    //         // }
-            
-    //     }
-    //     document.addEventListener("mousedown",handler)
-    // })
+    useEffect(()=>{
+        api.get('/cartegory/')
+        .then(res => {
+            setCart(res.data)
+        })
+    }, [])
   return (
     <div>
         <div className='lg:flex hidden justify-between px-3'>
@@ -27,8 +25,8 @@ const MoreLinks = () => {
                 <p>ALL CATEGORIES</p>
                 <ArrowD size={16}/>
                 <div className={`absolute top-full left-0 z-30 text-sm w-full bg-gray-50 text-gray-500  p-4 borderGray rounded-md ${list ? "block" : "hidden"}`} ref={menuRef}>
-                    {cart.map((_, index) => {
-                        return <NavLink className="block py-1 hover:opacity-70 " to={`/cartegory/cart ${index}`}>Cartegory{index}</NavLink>
+                    {cart.map((carty, index) => {
+                        return <NavLink className="block py-1 hover:opacity-70 " to={`/cartegory/${carty.cartegory_name}`}>{carty.cartegory_name}</NavLink>
                     })}
                 </div>
             </div>

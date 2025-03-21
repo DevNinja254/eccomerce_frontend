@@ -1,8 +1,10 @@
 import React, {useState, useEffect} from 'react'
 import { NavLink } from 'react-router-dom'
 import { BiArrowFromLeft as Arrow } from 'react-icons/bi'
-import axios from 'axios'
+import api from '../../js/api'
+import Boilerplate from '../../boilerplate/Boilerplate'
 const Exclusiveoffer = () => {
+  const [isLoading, setIsLoading] = useState(true)
   const [exclusive, setExclusive] = useState({
     calculated_discount: "",
     price: 0,
@@ -12,21 +14,26 @@ const Exclusiveoffer = () => {
   useEffect(() => {
     const data = async() => {
       try {
-        const res = await axios.get("http://localhost:8000/api/v1/products/?exclusive=true")
+        const res = await api.get("/products/?exclusive=true")
         setExclusive(res.data.results[0])
+        setIsLoading(false)
       }catch(error) {
+        setIsLoading(false)
         console.warn(error)
       }
     }
     data()
-  })
+  },[])
   return (
-    <div className='p-3 rounded-md w-full relative'>
-      <figure className='w-full'>
-        <img className='imgHeight rounded-md w-full' src={require(exclusive.image)} alt="" />
+    <div className='p-3 rounded-md w-full relative mb-9'>
+      {isLoading ? <Boilerplate h="h-40"/> : <>
+        <figure className='w-full'>
+        <img className='imgHeight absolute top-4 left-3 block rounded-md w-full -z-10' style={{
+          minHeight: "100%"
+        }} src={require(exclusive.image)} alt="" />
       </figure>
-      <div className='absolute top-4 left-3 pl-4 pt-4 bg-black bg-opacity-30'>
-        <span className='flex items-center justify-start gap-5 py-3'>
+      <div className=' p-4 bg-opacity-30 w-full h-full rounded-md bg-black m-3'>
+        <span className='flex items-center justify-start gap-5 py-3 '>
             <p className='text-sm fontNewTimes text-gray-50 font-bold'>EXCLUSIVE OFFER</p>
             <p className='text-green-200 font-bold bgGreenFade rounded-full px-2 text-sm py-1'>-{exclusive.calculated_discount}% OFF</p>
         </span>
@@ -35,6 +42,7 @@ const Exclusiveoffer = () => {
         <p className='text-sm textGreen'>from <span className='textRed text-lg font-bold'>Ksh. {exclusive.price}</span></p>
         <NavLink className="bgSky text-white py-2 px-3 mt-3 w-fit gap-2 font-bold rounded-full flex items-center" to={`/products/${exclusive.title}`}>Shop Now <Arrow size={25}/></NavLink>
       </div>
+      </>}
     </div> 
   )
 }

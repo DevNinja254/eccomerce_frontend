@@ -33,6 +33,7 @@ const Slidingnav = ({slide, slideValue}) => {
                 </div>
                 <NavLink className="block px-4 pb-2 mb-3 font-bold text-gray-700 border-b-gray-500 border-b-2 border-opacity-15 text-sm" to="#">Home</NavLink>
                 <NavLink className="block px-4 pb-2 mb-3 font-bold text-gray-700 border-b-gray-500 border-b-2 border-opacity-15 text-sm" to="/products">Shop</NavLink>
+                <NavLink className="block px-4 pb-2 mb-3 font-bold text-gray-700 border-b-gray-500 border-b-2 border-opacity-15 text-sm" to="/cartegory">All Cartegories</NavLink>
                 <NavLink className="block px-4 pb-2 mb-3 font-bold text-gray-700 border-b-gray-500 border-b-2 border-opacity-15 text-sm" to="/about us">About Us</NavLink>
                 <NavLink to="/cartegory/trending" className="flex px-4 pb-2 mb-3 font-bold text-gray-700 border-b-gray-500 border-b-2 border-opacity-15 items-center justify-start gap-4 text-sm">
                     <Trend size={20}/>

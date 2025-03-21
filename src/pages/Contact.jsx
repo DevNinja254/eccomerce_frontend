@@ -7,7 +7,6 @@ import EaseNav from '../components/ui/EaseNav';
 const Contact = () => {
     useEffect(() => {
         window.scrollTo({top:0, left:0, behavior:"instant"})
-        document.title = "Contact | us"
     })
   return (
     <MainLayout>
